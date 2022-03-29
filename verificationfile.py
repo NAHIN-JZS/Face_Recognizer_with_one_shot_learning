@@ -42,7 +42,6 @@ class L1Dist(Layer):
     def __init__(self, **kwargs):
         super().__init__()
 
-    # Magic happens here - similarity calculation
     def call(self, input_embedding, validation_embedding):
         return tf.math.abs(input_embedding - validation_embedding)
 
@@ -50,16 +49,17 @@ class L1Dist(Layer):
 
 
 def verify(model, detection_threshold, verification_threshold):
-    # Build results array
-    #Finiding total employee count
-    #Walking through each directory and checking image of that directory to input image
     input_img = preprocess(os.path.join('application_data', 'input_image', 'input_image.jpg'))
-    print("Before Outer Loop")
+    #print("Before Outer Loop")
     for folder_name in os.listdir("application_data"):
         if folder_name == "input_image":
             continue
+        
+    # Build results array
+    #Finiding total employee count
+    #Walking through each directory and checking image of that directory to input image
         results = []
-        print("Before Inner Loop")
+        #print("Before Inner Loop")
         for image in os.listdir(os.path.join('application_data', folder_name)):
             validation_img = preprocess(os.path.join('application_data', folder_name, image))
 
@@ -86,7 +86,9 @@ def verify(model, detection_threshold, verification_threshold):
 
 
 def add_person(name_id):
-    path = 'D:\\NC files\\MainDirectory\\Industry_Assignment\\application_data\\' + name_id
+
+    #path to main folder + individual person photo folder
+    path = 'D:\\path\\to\\main\\folder\\' + name_id  #path to main folder + individual person photo folder
     print(path)
     if(os.path.isdir(path)):
         print("alreay in database")
@@ -115,11 +117,6 @@ def add_person(name_id):
                 # Write out anchor image
                 cv2.imwrite(imgname, frame)
                 i = i + 1
-
-
-
-
-        # Show image back to screen
 
         # Breaking gracefully
         if cv2.waitKey(1) & 0XFF == ord('q'):
@@ -164,7 +161,9 @@ while(1):
 
     choice = input("What do you want to do : \n1.Add a new person\n2.Verify person\n3.Quit\n")
     global face_cascade
-    haar_file = 'D:\\NC files\\MainDirectory\\Industry_Assignment\\haarcascade_frontalface_default.xml'
+
+    #path to haar cascade file
+    haar_file = 'D:\\path\\to\\haar_cascade_file\\haarcascade_frontalface_default.xml'
     face_cascade = cv2.CascadeClassifier(haar_file)
     if(choice == '1'):
         name_id = input("Enter person's identification: ")
